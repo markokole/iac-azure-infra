@@ -6,6 +6,18 @@ This repository provisions the following services in Azure to make provisioning 
 * Virtual Network
 * Subnet
 
+This is a long live provisioning service. The Azure services provisioned can be used for various projects where the above mentioned services are needed.
+After the provisioning is done, the outputs are stored to Consul. The following keys in Consul are outputs to the above services:
+
+> test/master/azure/generated/network_interface_id
+> test/master/azure/generated/resource_group_name
+> test/master/azure/generated/subnet_id
+> test/master/azure/generated/virtual_network_id
+
+More can be added by altering *modules/infra/write_to_consul.tf*.
+
+These keys in Consul can be picked up in any other project and used to build on.
+
 ## Enter Docker container
 
 The DockerFile to build the container can be found [here](https://github.com/markokole/iac-azure-test).
@@ -48,11 +60,11 @@ ARM_TENANT_ID=$(az account show | jq -r ".tenantId")
 
 ```
 
-The environment is now ready for provisioning Azure services with Terraform. Step into `local-git/iac-azure-infra/modules/infra` folder and start provisioning services.
+The environment is now ready for provisioning Azure services with Terraform. Step into `/local-git/iac-azure-infra/modules/infra` folder and start provisioning services.
 
 ## Provision Services
 
-1) Initialize
+1. Initialize
 
 ```bash
 terraform init
@@ -60,7 +72,7 @@ terraform init
 
 to initialize the Azure plugins.
 
-2.) Check
+2. Check
 
 ```bash
 terraform plan
@@ -68,7 +80,7 @@ terraform plan
 
 to check the plan Terraform has for provisioning.
 
-3.) Apply
+3. Apply
 
 ```bash
 terraform apply -auto-approve
